@@ -38,19 +38,12 @@ pip install -r requirements.txt
    |    Section   |   Parameter         |                 Description                   |
    |--------------|---------------------|-----------------------------------------------|
    | local        | data_directory      | Local directory to store files                |
-   |--------------|---------------------|-----------------------------------------------|
    | local        | image_dir           | Local directory to store images               |
-   |--------------|---------------------|-----------------------------------------------|
    | db_params    | metastore_table     | Postgres table name to use as meta store      |
-   |--------------|---------------------|-----------------------------------------------|
    | posgresql    | host                | PostgreSQL server host name                   |
-   |--------------|---------------------|-----------------------------------------------|
    | postgresql   | database            | PostgreSQL database name                      |
-   |--------------|---------------------|-----------------------------------------------|
    | postgresql   | port                | PostgreSQL port                               |
-   |--------------|---------------------|-----------------------------------------------|
    | postgresql   | user                | PostgreSQL user name                          |
-   |--------------|---------------------|-----------------------------------------------|
    | postgresql   | password            | PostgreSQL password                           |
    |--------------|---------------------|-----------------------------------------------|
 
