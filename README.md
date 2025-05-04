@@ -22,13 +22,17 @@ image_classification/
 🚀 Getting Started
 1. Clone the Repository
 
+```
 git clone https://github.com/vtarvecha/image_classification.git
 cd image_classification
+```
 
 2. Set Up the Environment
+```
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+```
 
 3. Data preparation Steps
 
@@ -46,21 +50,30 @@ pip install -r requirements.txt
    | postgresql   | password            | PostgreSQL password                           |
 
    3.2 Download files to local
+   ```
    pthon download_files_to_local.py
+   ```
 
    3.3 Ingestion ( For each file download ) 
+   ```
    python ingestion.py <file_name>
+   ```
 
    3.4 Download Images
+```
    python download_images.py
-
+```
    3.5 Run Face detection
+```
    python detect_face_opencv.py
-
+```
    3.6 Run Glasses detection
+```   
    python detect_glasses_dlib.py
+```
 
-4. Stand up Search API
+5. Stand up Search API
+```
    fastapi run image_search.py
-   
+```   
    
