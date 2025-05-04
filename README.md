@@ -60,20 +60,20 @@ pip install -r requirements.txt
    ```
 
    3.4 Download Images
-```
+   ```
    python download_images.py
-```
+   ```
    3.5 Run Face detection
-```
+   ```
    python detect_face_opencv.py
-```
+   ```
    3.6 Run Glasses detection
-```   
+   ```   
    python detect_glasses_dlib.py
-```
+   ```
 
 5. Stand up Search API
-```
+   ```
    fastapi run image_search.py
-```   
+   ```   
    
