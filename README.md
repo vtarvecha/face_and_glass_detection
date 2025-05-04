@@ -1,7 +1,7 @@
 # image_classification
 Project to build a pipeline that sources Image dataset from Hugging Face, runs it through Image Object Detection model, and stores it in user friendly way that enables downstream users to search for images based on search criteria. 
 
-
+```
 Project Structure
 image_classification/
 │
@@ -17,7 +17,7 @@ image_classification/
 ├── image_search_filter.py            # Utilities function to generate Python response based on filter conditions. 
 ├── LICENSE                           # License File. 
 └── README.md                         # Project documentation
-
+```
 
 🚀 Getting Started
 1. Clone the Repository
