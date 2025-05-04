@@ -34,7 +34,6 @@ pip install -r requirements.txt
 
    3.1 Setup configuration files config.ini per example provided and description below.
    
-   |--------------|---------------------|-----------------------------------------------|
    |    Section   |   Parameter         |                 Description                   |
    |--------------|---------------------|-----------------------------------------------|
    | local        | data_directory      | Local directory to store files                |
