@@ -44,7 +44,6 @@ pip install -r requirements.txt
    | postgresql   | port                | PostgreSQL port                               |
    | postgresql   | user                | PostgreSQL user name                          |
    | postgresql   | password            | PostgreSQL password                           |
-   |--------------|---------------------|-----------------------------------------------|
 
    3.2 Download files to local
    pthon download_files_to_local.py
