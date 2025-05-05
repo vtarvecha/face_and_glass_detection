@@ -51,7 +51,7 @@ pip install -r requirements.txt
 
    3.2 Download files to local
    ```
-   pthon download_files_to_local.py
+   python download_files_to_local.py
    ```
 
    3.3 Ingestion ( For each file download ) 
