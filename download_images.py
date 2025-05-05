@@ -5,6 +5,11 @@ import multiprocessing as mp
 import os
 from tqdm import tqdm 
 import config_utils
+
+# Global variables
+image_dir = config_utils.get_config('config.ini','local')['image_dir']
+if not os.path.exists(image_dir):
+    os.makedirs(image_dir)
             
 def update_image_download_status(conn, image_uuid, metastore_table):
     try:
@@ -22,12 +27,14 @@ def download_image(row):
     # Check if the file already exists
     # print(f"Downloading image from {url} to {save_path}")
     url = row[1]
-    save_path = f"images/{row[0]}.{url.split('.')[-1]}"
-    if os.path.exists(save_path):
+    file_name = f"{row[0]}.{url.split('.')[-1]}"
+    save_path = os.path.join(image_dir, file_name)
+    print(f"Downloading image from {url} to {save_path}")
+    if os.path.exists(image_dir):
         # print(f"File {save_path} already exists. Skipping download.")
         return save_path.split('/')[-1].split('.')[0]
     try:
-        response = requests.get(url, headers={'User-Agent': 'TakeHomeAssignment/0.0.1'})
+        response = requests.get(url, headers={'User-Agent': 'TestAssignment/0.0.1'})
         response.raise_for_status()  # Raise an error for bad responses
         with open(save_path, 'wb') as img_file:
             img_file.write(response.content)
@@ -55,8 +62,10 @@ def main():
     pool = mp.Pool(mp.cpu_count() - 1)
     
     # Fetch data in batches
-    query = "SELECT image_uuid, image_url FROM metastore WHERE image_url IS NOT NULL AND NOT image_download_status;"
+    query = f"SELECT image_uuid, image_url FROM {metastore_table} WHERE image_url IS NOT NULL AND NOT image_download_status;"
+    print(f"Executing query: {query}")
     
+    # Fetch data in batches
     for batch in pg_utils.fetch_data_in_batches(conn, query):
         results = list(tqdm(pool.imap_unordered(download_image, batch), total=len(batch), desc="Downloading images"))
         for image_uuid in results:
