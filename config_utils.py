@@ -21,7 +21,7 @@ def get_config(filename, section):
 def main():
     # Example usage
     try:
-        db_params = get_config('database.ini', 'postgresql')
+        db_params = get_config('config.ini', 'postgresql')
         print("Database parameters:", db_params)
     except Exception as e:
         print(f"Error: {e}")

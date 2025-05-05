@@ -5,7 +5,7 @@ import config_utils
 def connect():
     conn = None
     try:
-        params = config_utils.get_config('database.ini', 'postgresql')
+        params = config_utils.get_config('config.ini', 'postgresql')
         conn = psycopg2.connect(**params)
         # print("Connected to the PostgreSQL database using parameters", params)
     except psycopg2.Error as e:

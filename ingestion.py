@@ -87,8 +87,8 @@ def main():
                 mime_type, image_download_status, file_name) 
             VALUES
             """.format(metastore_table=metastore_table)
-            print(f"Insert query: {insert_query}") 
-            print(f"Inserting records {i+1}-{i+j} into the database...")
+            # print(f"Insert query: {insert_query}") 
+            # print(f"Inserting records {i+1}-{i+j} into the database...")
         
             cur.execute(insert_query + ', '.join(values) + " ON CONFLICT (image_url) DO NOTHING;")
             print(f"Inserted records {i+1}-{i+j} into the database.")
@@ -98,7 +98,7 @@ def main():
         print('Transaction committed successfully.')
         
     except psycopg2.Error as e:
-        print(f"Error inserting records {i+1}-{j}: {e}")
+        print(f"Error inserting records {i+1}-{j+j}: {e}")
         conn.rollback()
 
     # Perform count query to check the number of records in the metastore table versus the number of records in the dataset
