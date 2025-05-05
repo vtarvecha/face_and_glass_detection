@@ -4,7 +4,7 @@ import config_utils
 def download_file_from_huggingface(repo_id, filename, local_dir):
     """Download a file from Hugging Face Hub and save it to a local directory."""
     try:
-        download_file = hf_hub_download(repo_id=repo_id, filename=filename, local_dir=local_dir)
+        download_file = hf_hub_download(repo_id=repo_id, repo_type='dataset', subfolder='data', filename=filename, local_dir=local_dir)
         print(f"Downloaded {filename} to {local_dir}.")
         return download_file 
     except Exception as e:
