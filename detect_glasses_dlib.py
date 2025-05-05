@@ -2,8 +2,8 @@ import numpy as np
 import dlib 
 import cv2 
 from PIL import Image 
-import statistics 
 import pg_utils
+import config_utils
 from tqdm import tqdm
 import psycopg2
 import multiprocessing as mp
@@ -11,10 +11,30 @@ import os
 
 
 # Global variables
-data_directory = pg_utils.get_config('config.ini','local')['data_directory']
-metastore_table = pg_utils.get_config('config.ini','db_params')['metastore_table']
-image_dir = pg_utils.get_config('config.ini','local')['image_dir']
+data_directory = config_utils.get_config('config.ini','local')['data_directory']
+metastore_table = config_utils.get_config('config.ini','db_params')['metastore_table']
+image_dir = config_utils.get_config('config.ini','local')['image_dir']
 detector = dlib.get_frontal_face_detector()
+shape_predictor_path = os.path.join(data_directory, 'shape_predictor_68_face_landmarks.dat')
+# The `predictor` in the code is an instance of the dlib shape predictor class. It is used to predict
+# the facial landmarks (specifically, 68 face landmarks) in a given image. These landmarks include
+# points such as the corners of the eyes, nose, mouth, etc. The predictor uses a pre-trained model
+# (`shape_predictor_68_face_landmarks.dat`) to estimate the locations of these facial landmarks in the
+# image. These landmarks are then used in the glasses detection algorithm to identify the position of
+# the nose bridge for determining the presence of glasses in the image.
+if not os.path.exists(shape_predictor_path):
+    print("Downloading shape predictor file...")
+    import urllib.request
+    url = "http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2"
+    output_path = os.path.join(data_directory, 'shape_predictor_68_face_landmarks.dat.bz2')
+    urllib.request.urlretrieve(url, output_path)
+    # Unzip the downloaded file
+    import bz2
+    with bz2.BZ2File(output_path) as f:
+        with open(shape_predictor_path, 'wb') as out_file:
+            out_file.write(f.read())
+            
+
 predictor = dlib.shape_predictor(f"{data_directory}/shape_predictor_68_face_landmarks.dat")
 
 
@@ -22,7 +42,7 @@ def glasses_detector(row):
     image_uuid = row[0]
     image_url = row[1]
     image_extension = image_url.split('.')[-1]
-    image = f"{image_dir}/{image_uuid}.{image_extension}"
+    image = os.path.join(image_dir, image_uuid + '.' + image_extension)
     try:
         img = dlib.load_rgb_image(image)
     except Exception as e:
@@ -88,7 +108,7 @@ def main():
     
     # Scan PostgreSQL database to get the image URLs and metadata
     query = f"SELECT image_uuid, image_url FROM {metastore_table} WHERE has_face AND has_glasses IS NULL;"
-        
+    
     for batch in pg_utils.fetch_data_in_batches(conn, query):
         results = list(tqdm(pool.imap_unordered(glasses_detector, batch), total=len(batch), desc="Detecting faces"))
         conn2 = pg_utils.connect()
