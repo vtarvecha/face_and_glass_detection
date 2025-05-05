@@ -4,15 +4,16 @@ import psycopg2
 import multiprocessing as mp
 from tqdm import tqdm
 import config_utils
+import os
 
-image_dir = config_utils.get_config('config.ini','image_params')['image_dir']
+image_dir = config_utils.get_config('config.ini','local')['image_dir']
 metastore_table = config_utils.get_config('config.ini','db_params')['metastore_table']
 
 def detect_face_opencv(row):
     image_uuid = row[0]
     image_url = row[1]
     image_extension = image_url.split('.')[-1]
-    image_path = f"{image_dir}/{image_uuid}.{image_extension}"
+    image_path = os.path.join(image_dir, image_uuid + '.' + image_extension)
     
     # Load the pre-trained Haar Cascade classifier for face detection
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
